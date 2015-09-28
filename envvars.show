@@ -1,0 +1,22 @@
+# variables for apache (drupal) container
+DB_HOST=mysql
+DB_USER=admin
+DB_PASS=sdgfiopsdjfopgj
+DB_NAME=drupaldb
+
+# variables for mysql container:
+# from the Apache variables it maps as
+# DB_USER -> MYSQL_USER
+# DB_PASS -> MYSQL_PASSWORD
+# DB_NAME -> MYSQL_DATABASE
+
+MYSQL_DATABASE=drupaldb
+MYSQL_USER=admin
+MYSQL_PASSWORD=sdgfiopsdjfopgj
+MYSQL_ROOT_PASSWORD=toor
+
+# varibles for S3 container
+DROP_EXISTING_DBS=yeah
+REGION=eu-central-1
+AWS_ACCESS_KEY_ID=RRRRRRRRRRRRRRRRRRRR
+AWS_SECRET_ACCESS_KEY=RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR

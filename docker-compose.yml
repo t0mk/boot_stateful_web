@@ -1,0 +1,45 @@
+drupal:
+    #image: t0mk/drupal8demo:stable
+    image: t0mk/drupal8demo
+    volumes_from:
+        - filesvolume
+    ports:
+        - "6666:80"
+    links:
+        - mysql
+    env_file: envvars
+
+mysql:
+    image: mysql:5.7
+    volumes_from:
+        - dbvolume
+    env_file: envvars
+
+filesvolume:
+    image: busybox
+    volumes: 
+        - /app/sites/default/files
+
+dbvolume:
+    image: busybox
+    volumes: 
+        - /var/lib/mysql
+
+loaddbfromhttp:
+  image: t0mk/s3
+  env_file: envvars
+  links:
+    - mysql
+  #command: loadsql s3://tomk-baket/sql/demodump.tar.gz
+  #command: loadsql s3://tomk-baket/sql/demodump.tar.gz:.BkadLm.UNSMGtLU3wdAMaiTVAJ1ahNb
+  command: loadsql https://s3.eu-central-1.amazonaws.com/tomk-baket/sql/demodump.tar.gz
+
+loadfilesfromhttp:
+  image: t0mk/s3
+  env_file: envvars
+  volumes_from:
+    - drupal
+  #command: load s3://tomk-baket/static/demofiles.tar.gz.tar.gz:fHpLmzV1jJ7vtvUiYOnU10p4WPCIpzm /app/sites/default/files
+  command: load https://s3.eu-central-1.amazonaws.com/tomk-baket/static/demofiles.tar.gz.tar.gz /app/sites/default/files
+
+

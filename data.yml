@@ -1,0 +1,77 @@
+# Use as 
+# docker-compose -f data.yml <container_name>
+
+# save SQL db to tarball (so it can be loaded later)
+savedb:
+  image: t0mk/s3
+  env_file: envvars
+  volumes:
+    - ./out:/out
+  external_links:
+    - "bootstatefulweb_mysql_1:mysql"
+  # savesql <output_file> <list_of_dbs_to_dump>
+  command: savesql /out/sql.tar.gz drupaldb
+
+# save static files to a tarball
+savefiles:
+  image: t0mk/s3
+  env_file: envvars
+  volumes:
+    - ./out:/out
+  volumes_from:
+    - "bootstatefulweb_drupal_1"
+  # save <new_tarball> <directory_to_archive>
+  command: save /out/files.tar.gz /app/sites/default/files
+
+# load SQL to DB from file
+loaddb:
+  image: t0mk/s3
+  env_file: envvars
+  volumes:
+    - ./in:/in
+  external_links:
+    - "bootstatefulweb_mysql_1:mysql"
+  # loadsql <tarball_with_sql_dumps> 
+  command: loadsql /in/sql.tar.gz
+
+# load static files to site from tarball
+loadfiles:
+  image: t0mk/s3
+  env_file: envvars
+  volumes:
+    - ./in:/in
+  volumes_from:
+    - "bootstatefulweb_drupal_1"
+  # load <tarball> <destination_directory>
+  command: load /in/files.tar.gz /app/sites/default/files
+
+savedbtos3:
+  image: t0mk/s3
+  env_file: envvars
+  external_links:
+      - "bootstatefulweb_mysql_1:mysql"
+  command: savesql s3://tomk-baket/sql/demodump.tar.gz drupaldb
+
+savefilestos3:
+  image: t0mk/s3
+  env_file: envvars
+  volumes_from:
+    - "bootstatefulweb_drupal_1"
+  command: save s3://tomk-baket/static/demofiles.tar.gz.tar.gz /app/sites/default/files
+
+loaddbfroms3:
+  image: t0mk/s3
+  env_file: envvars
+  external_links:
+    - "bootstatefulweb_mysql_1:mysql"
+  #command: loadsql s3://tomk-baket/sql/demodump.tar.gz
+  command: loadsql s3://tomk-baket/sql/demodump.tar.gz:.BkadLm.UNSMGtLU3wdAMaiTVAJ1ahNb
+
+loadfilesfroms3:
+  image: t0mk/s3
+  env_file: envvars
+  volumes_from:
+    - "bootstatefulweb_drupal_1"
+  #command: load s3://tomk-baket/static/demofiles.tar.gz.tar.gz
+  command: load s3://tomk-baket/static/demofiles.tar.gz.tar.gz:fHpLmzV1jJ7vtvUiYOnU10p4WPCIpzm /app/sites/default/files
+
