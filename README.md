@@ -26,7 +26,7 @@ Code comes in Docker image t0mk/drupal8demo. I don't show how I build the image 
 
 Posible approaches: burn the code in image, mount from host, clone on container run.
 
-SQL dump comes from tarball. The tarball contains 1..n files with names corresponding to the __ database name. I.e. in order to load the tabrall we must:
+SQL dump comes from tarball. The tarball contains 1..n files with names corresponding to the partcular database name. I.e. in order to load the tabrall we must:
 
 ```
 extract tarball to /tmp/tmp.Snt1NAkF2m
