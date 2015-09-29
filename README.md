@@ -1,3 +1,20 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Boostrapping stateful webapp with Docker](#boostrapping-stateful-webapp-with-docker)
+  - [What](#what)
+  - [Why](#why)
+  - [How](#how)
+    - [Storing state](#storing-state)
+    - [Storing and restoring logic](#storing-and-restoring-logic)
+    - [Usage of this repo](#usage-of-this-repo)
+    - [Data handling](#data-handling)
+    - [Dev setup](#dev-setup)
+  - [Discussion](#discussion)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Boostrapping stateful webapp with Docker
 
 Docker meetup 28.9.2015
@@ -20,7 +37,7 @@ Loading static files and db with another container makes it appear more compact 
 The web app - Drupal 8 beta. State of a Drupal site consists of code, db, and static files. We thus need to store/restore/describe all 3 to be able to boostrap a site.
 
 
-### Store state
+### Storing state
 
 Code comes in Docker image t0mk/drupal8demo. I don't show how I build the image in the demo as there is many other resources on it. It's based on this: https://github.com/t0mk/docker-drupal8/tree/master/apache-dev plus the Drupal web root.
 
@@ -48,7 +65,7 @@ In a Docker image: https://github.com/t0mk/docker-s3
 
 S3 credentials in envvar file. Also possible to download and store to a local file, and download from HTTP.
 
-### Usage
+### Usage of this repo
 
 You can try this on your own.
 
@@ -56,14 +73,26 @@ You can try this on your own.
 git clone https://github.com/t0mk/boot_stateful_web.git
 cd boot_stateful_web
 docker-compose up -d
-# check output of containers
+# check output of containers. Also the dead loading containers: docker ps -a | head -2
 # visit http://localhost:6666
+```
+
+### Data handling
+
+The tasks of moving the 
+
+See `data.yml` and run example of a task to dump files or db.
 
 ```
+cat data.yml
+docker-compose -f data.yml run --rm savedb
+docker-compose -f data.yml run --rm savedbtos3
+```
+
 
 ### Dev setup
 
-Mount a host volume from your webroot (e.g. ./www) to /app of the Drupal container.
+Mount a host volume from your development webroot (e.g. ./www) to /app of the Drupal container.
 
 ```
 diff -u docker-compose.yml dev.yml
@@ -78,7 +107,3 @@ docker-compose -f dev.yml up -d
 - What would you do differently? Maybe not S3 but ..., or not docker-compose but ... 
 - IMO Handling data like this will be obsolete when volumes become truly independent on containers (or vice versa?). Like this but with volumes wherever: https://coreos.com/blog/Flocker-on-CoreOS-Linux/. Then we'll be hopefully able to version and move around whole volumes. Has anybody tried Flocker?
 
-## Links
-
-- How I build the Drupal container: https://github.com/t0mk/d8.git
-- 
