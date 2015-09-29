@@ -79,6 +79,8 @@ docker-compose up -d
 # visit http://localhost:6666
 ```
 
+Cast: https://asciinema.org/a/0i3x6zt0fbn2xos2c7oh3ltoz
+
 ### Data handling
 
 The tasks of moving the 
@@ -91,6 +93,7 @@ docker-compose -f data.yml run --rm savedb
 docker-compose -f data.yml run --rm savedbtos3
 ```
 
+Cast: https://asciinema.org/a/7hencne8qbjxevgqgfqg3m3h4
 
 ### Dev setup
 
@@ -101,6 +104,8 @@ diff -u docker-compose.yml dev.yml
 docker-compose -f dev.yml up -d
 # modify sth in www/
 ```
+
+Cast: https://asciinema.org/a/4bts9sfr5t1lg73b2hcr3jm11
 
 
 ## Discussion

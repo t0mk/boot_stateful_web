@@ -57,7 +57,7 @@ savefilestos3:
   env_file: envvars
   volumes_from:
     - "bootstatefulweb_drupal_1"
-  command: save s3://tomk-baket/static/demofiles.tar.gz /app/sites/default/files
+  command: save s3://tomk-baket/static/demofiles_backup.tar.gz /app/sites/default/files
 
 loaddbfroms3:
   image: t0mk/s3
@@ -73,5 +73,5 @@ loadfilesfroms3:
   volumes_from:
     - "bootstatefulweb_drupal_1"
   #command: load s3://tomk-baket/static/demofiles.tar.gz
-  command: load s3://tomk-baket/static/demofiles.tar.gz:hTPNyCO_mlhyZAKIkdZQ1PoO4unLjqY_ /app/sites/default/files
+  command: load s3://tomk-baket/static/demofiles_backup.tar.gz
 
