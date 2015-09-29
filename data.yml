@@ -50,14 +50,14 @@ savedbtos3:
   env_file: envvars
   external_links:
       - "bootstatefulweb_mysql_1:mysql"
-  command: savesql s3://tomk-baket/sql/demodump.tar.gz drupaldb
+  command: savesql s3://tomk-baket/sql/demodump_backup.tar.gz drupaldb
 
 savefilestos3:
   image: t0mk/s3
   env_file: envvars
   volumes_from:
     - "bootstatefulweb_drupal_1"
-  command: save s3://tomk-baket/static/demofiles.tar.gz.tar.gz /app/sites/default/files
+  command: save s3://tomk-baket/static/demofiles.tar.gz /app/sites/default/files
 
 loaddbfroms3:
   image: t0mk/s3
@@ -65,13 +65,13 @@ loaddbfroms3:
   external_links:
     - "bootstatefulweb_mysql_1:mysql"
   #command: loadsql s3://tomk-baket/sql/demodump.tar.gz
-  command: loadsql s3://tomk-baket/sql/demodump.tar.gz:.BkadLm.UNSMGtLU3wdAMaiTVAJ1ahNb
+  command: loadsql s3://tomk-baket/sql/demodump_backup.tar.gz:1mWT9ajHjbtBq1iRrg_XcRqMBfT7Bu8c
 
 loadfilesfroms3:
   image: t0mk/s3
   env_file: envvars
   volumes_from:
     - "bootstatefulweb_drupal_1"
-  #command: load s3://tomk-baket/static/demofiles.tar.gz.tar.gz
-  command: load s3://tomk-baket/static/demofiles.tar.gz.tar.gz:fHpLmzV1jJ7vtvUiYOnU10p4WPCIpzm /app/sites/default/files
+  #command: load s3://tomk-baket/static/demofiles.tar.gz
+  command: load s3://tomk-baket/static/demofiles.tar.gz:hTPNyCO_mlhyZAKIkdZQ1PoO4unLjqY_ /app/sites/default/files
 
