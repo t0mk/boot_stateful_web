@@ -1,5 +1,5 @@
 drupal:
-    image: t0mk/drupal8demo
+    image: t0mk/drupal8demo:stable
     volumes_from:
         - filesvolume
     volumes:
