@@ -61,7 +61,9 @@ The static files are just a directory tree, it can be also loaded from a tarball
 
 In a Docker image: https://github.com/t0mk/docker-s3
 
-![composition](http://i.imgur.com/a09zuuF.png)
+![composition](http://i.imgur.com/Gbcegbq.png)
+
+generated with https://github.com/abesto/docker-compose-graphviz as `docker-compose-graphviz | dot -o dc.png -Tpng -Nfontname=sans`
 
 S3 credentials in envvar file. Also possible to download and store to a local file, and download from HTTP.
 
